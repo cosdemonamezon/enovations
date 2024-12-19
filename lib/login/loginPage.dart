@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:novations/home/firstPage.dart';
 import 'package:novations/login/services/loginController.dart';
 import 'package:novations/widgets/LoadingDialog.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,31 +22,60 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController username = TextEditingController();
   final TextEditingController password = TextEditingController();
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-  AndroidDeviceInfo? androidInfo;
-  IosDeviceInfo? iosInfo;
+  String device_no = '';
+  String notify_token = '';
   //FirebaseMessaging? messaging;
-
-  Future<void> initPlatformState() async {
-    try {
-      if (Platform.isAndroid) {
-        androidInfo = await deviceInfo.androidInfo;
-        // inspect(androidInfo!.id);
-      } else if (Platform.isIOS) {
-        iosInfo = await deviceInfo.iosInfo;
-        // inspect(iosInfo!.utsname.sysname);
-      }
-    } on PlatformException {
-      // inspect('Error: Failed to get platform version.');
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-    setState(() {
-      // messaging = FirebaseMessaging.instance;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await requestNotificationPermission();
+      getToken();
+      getdeviceId();
     });
+
+    OneSignal.Notifications.addClickListener((event) {});
+  }
+
+  void getdeviceId() async {
+    final deviceInfo = DeviceInfoPlugin();
+
+    if (Platform.isAndroid) {
+      // ดึงข้อมูล Android ID
+      final androidInfo = await deviceInfo.androidInfo;
+      device_no = androidInfo.id;
+      //log('Android ID: ${androidInfo.id}');
+    } else if (Platform.isIOS) {
+      // ดึงข้อมูล Identifier for Vendor (iOS)
+      final iosInfo = await deviceInfo.iosInfo;
+      print('iOS Identifier: ${iosInfo.identifierForVendor}');
+    }
+  }
+
+  void getToken() async {
+    //inspect(OneSignal.User);
+    var playerId = OneSignal.User.pushSubscription.id;
+    //log(playerId ?? '');
+    notify_token = playerId!;
+  }
+
+  Future<void> requestNotificationPermission() async {
+    if (Platform.isAndroid) {
+      if (await Permission.notification.isGranted) {
+        print("Notification permission already granted");
+      } else {
+        var status = await Permission.notification.request();
+        if (status.isGranted) {
+          print("Notification permission granted");
+        } else if (status.isDenied) {
+          print("Notification permission denied");
+        } else if (status.isPermanentlyDenied) {
+          print("Notification permission permanently denied");
+          openAppSettings();
+        }
+      }
+    }
   }
 
   @override
@@ -104,23 +135,25 @@ class _LoginPageState extends State<LoginPage> {
                           if (loginFormKey.currentState!.validate()) {
                             try {
                               LoadingDialog.open(context);
-                              if (androidInfo != null) {
-                                //final notify_token = await messaging!.getToken();
-                                //await controller.signIn(username: username.text, password: password.text, deviceId: androidInfo!.id, notify_token: notify_token!);
-                                //await controller.signIn(tel: username.text, password: password.text, deviceId: androidInfo!.id);
-                              } else if (iosInfo != null) {
-                                //await controller.signIn(tel: username.text, password: password.text, deviceId: iosInfo!.utsname.machine!);
-                                //final notify_token = await messaging?.getToken();
-                                //await controller.signIn(username: username.text, password: password.text, deviceId: iosInfo!.utsname.machine, notify_token: notify_token ?? '');
-                                if (!mounted) return;
-                                LoadingDialog.close(context);
-                                //Navigator.push(context, MaterialPageRoute(builder: (context) => FirstPage()));
-                              }
+                              // if (androidInfo != null) {
+                              //   final notify_token = await messaging!.getToken();
+                                
+                              //   await controller.signIn(tel: username.text, password: password.text, deviceId: androidInfo!.id);
+                              // } else if (iosInfo != null) {
+                              //   await controller.signIn(tel: username.text, password: password.text, deviceId: iosInfo!.utsname.machine!);
+                              //   final notify_token = await messaging?.getToken();
+                              //   await controller.signIn(username: username.text, password: password.text, deviceId: iosInfo!.utsname.machine, notify_token: notify_token ?? '');
+
+                              //   Navigator.push(context, MaterialPageRoute(builder: (context) => FirstPage()));
+                              // }
+                              await controller.signIn(username: username.text, password: password.text, deviceId: device_no, notify_token: notify_token);
+                              if (!mounted) return;
+                              LoadingDialog.close(context);
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => FirstPage()));
                             } on Exception catch (e) {
                               LoadingDialog.close(context);
                             }
                           }
-                          
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xff3c61a9),
