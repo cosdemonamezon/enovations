@@ -4,6 +4,9 @@ Color background = Color(0xfff5f5f5);
 Color redbackground = Color(0xffef1e25);
 Color bluebackground = Color(0xff3c61a9);
 
+const String publicUrl = 'asha-tech.co.th';
+const String pubUrl = 'https://asha-tech.co.th';
+
 
 List<String> image_banner = [
   'assets/images/418723337_n.jpg',
