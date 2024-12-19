@@ -15,37 +15,59 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
-  DateTime _currentDate = DateTime.now();
-  DateTime _currentDate2 = DateTime.now();
-  String _currentMonth = DateFormat.yMMM().format(DateTime.now());
-  DateTime _targetDateTime = DateTime.now();
-  CalendarCarousel? _calendarCarouselNoHeader;
-  final EventList<Event> _markedDateMap = EventList<Event>(events: {});
-  List<DateTime> dateTime = [];
+  late EventList<Event> _markedDateMap;
+  final Map<DateTime, bool> rangeDates = {};
+  final Map<DateTime, bool> startEndDates = {};
+
+  // Sample data
+  final List<Map<String, dynamic>> data = [
+    {
+      "id": 6,
+      "start_date": "2024-12-16",
+      "end_date": "2024-12-20",
+      "request_purpose": "Demo",
+      "status": "Ordered",
+    },
+    {
+      "id": 7,
+      "start_date": "2024-12-01",
+      "end_date": "2024-12-03",
+      "request_purpose": "Demo",
+      "status": "Ordered",
+    },
+  ];
 
   @override
   void initState() {
     super.initState();
-    //WidgetsBinding.instance.addPostFrameCallback((_) => getAllJobs());
+    _markedDateMap = EventList<Event>(events: {});
+    _processDates();
   }
 
-  static final Widget eventIcon = Container(
-    decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(1000)),
-        border: Border.all(color: Colors.blue, width: 2.0)),
-    child: Icon(
-      Icons.person,
-      color: Colors.amber,
-    ),
-  );
+  void _processDates() {
+    for (var item in data) {
+      DateTime startDate = DateTime.parse(item['start_date']);
+      DateTime endDate = DateTime.parse(item['end_date']);
+      startEndDates[startDate] = true;
+      startEndDates[endDate] = true;
+
+      // Add all dates between start and end
+      for (int i = 1; i < endDate.difference(startDate).inDays; i++) {
+        DateTime middleDate = startDate.add(Duration(days: i));
+        rangeDates[middleDate] = true;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home', style: TextStyle(color: Colors.white),),
+        title: Text(
+          'Home',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Color(0xff3c61a9),
       ),
       body: SingleChildScrollView(
@@ -76,11 +98,90 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ////////////
-            SizedBox(
-              height: size.height * 0.02,
-            ),
+            // SizedBox(
+            //   height: size.height * 0.02,
+            // ),
+            // Container(
+            //   height: size.height * 0.45,
+            //   child: CalendarCarousel<Event>(
+            //     markedDateShowIcon: false,
+            //     customDayBuilder: (
+            //       bool isSelectable,
+            //       int index,
+            //       bool isSelectedDay,
+            //       bool isToday,
+            //       bool isPrevMonthDay,
+            //       TextStyle textStyle,
+            //       bool isNextMonthDay,
+            //       bool isThisMonthDay,
+            //       DateTime day,
+            //     ) {
+            //       // Highlight startDate and endDate as dots
+            //       if (startEndDates[day] == true) {
+            //         return Center(
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.center,
+            //             children: [
+            //               Container(
+            //                 height: 8.0,
+            //                 width: 8.0,
+            //                 decoration: BoxDecoration(
+            //                   color: day == data[0]['start_date'] ? Colors.green : Colors.red,
+            //                   shape: BoxShape.circle,
+            //                 ),
+            //               ),
+            //               Text(
+            //                 '${day.day}',
+            //                 style: TextStyle(color: Colors.black),
+            //               ),
+            //             ],
+            //           ),
+            //         );
+            //       }
 
-            ///แสดงส่วหัวเรื่อง
+            //       // Add dashes between startDate and endDate
+            //       if (rangeDates[day] == true) {
+            //         return Center(
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.center,
+            //             children: [
+            //               Container(
+            //                 height: 2.0,
+            //                 width: 16.0,
+            //                 color: Colors.grey,
+            //               ),
+            //               Text(
+            //                 '${day.day}',
+            //                 style: TextStyle(color: Colors.black),
+            //               ),
+            //             ],
+            //           ),
+            //         );
+            //       }
+
+            //       // Default day rendering
+            //       return null;
+            //     },
+            //     todayButtonColor: Colors.transparent,
+            //     todayTextStyle: TextStyle(
+            //       color: Colors.blue,
+            //       fontWeight: FontWeight.bold,
+            //       fontSize: 16,
+            //     ),
+            //     daysTextStyle: TextStyle(
+            //       color: Colors.black,
+            //       fontSize: 16,
+            //       fontWeight: FontWeight.w600,
+            //     ),
+            //     weekendTextStyle: TextStyle(
+            //       color: Colors.red,
+            //       fontSize: 16,
+            //       fontWeight: FontWeight.w600,
+            //     ),
+            //   ),
+            // ),
+
+            //แสดงส่วหัวเรื่อง
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
               child: Row(
@@ -120,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                         )),
               ),
             ),
-            
+
             SizedBox(
               height: size.height * 0.02,
             ),
@@ -165,7 +266,7 @@ class _HomePageState extends State<HomePage> {
                         )),
               ),
             ),
-            
+
             SizedBox(
               height: size.height * 0.02,
             ),
@@ -175,5 +276,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -105,8 +106,9 @@ class _LoginPageState extends State<LoginPage> {
 
                       // Email Input
                       TextFormField(
+                        controller: username,
                         decoration: InputDecoration(
-                          labelText: 'Email',
+                          labelText: 'Username',
                           prefixIcon: Icon(Icons.email),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -118,6 +120,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       // Password Input
                       TextFormField(
+                         controller: password,
                         obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -147,11 +150,14 @@ class _LoginPageState extends State<LoginPage> {
                               //   Navigator.push(context, MaterialPageRoute(builder: (context) => FirstPage()));
                               // }
                               await controller.signIn(username: username.text, password: password.text, deviceId: device_no, notify_token: notify_token);
-                              if (!mounted) return;
+                              //if (!mounted) return;
                               LoadingDialog.close(context);
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => FirstPage()));
+                              // Navigator.push(context, MaterialPageRoute(builder: (context) => FirstPage()));
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => FirstPage()), (route) => false);
                             } on Exception catch (e) {
                               LoadingDialog.close(context);
+                              inspect(e);
+                              //print(e);
                             }
                           }
                         },

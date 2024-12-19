@@ -15,8 +15,8 @@ class User {
   String? phone;
   String? image;
   String? status;
-  DateTime? created_at;
-  DateTime? updated_at;
+  String? created_at;
+  String? updated_at;
 
   User(
     this.id,

@@ -9,7 +9,7 @@ class LoginApi {
 
   //login
   static Future<Auth> login(String username, String password, String device_no, String notify_token) async {
-    final url = Uri.https(publicUrl, 'api/login');
+    final url = Uri.https(publicUrl, '/enovations/api/public/api/login_app');
     final response = await http.post(url, body: {
       'username': username,
       'password': password,

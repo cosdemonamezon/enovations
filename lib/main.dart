@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:novations/firebase_options.dart';
+import 'package:novations/home/firstPage.dart';
 import 'package:novations/login/loginPage.dart';
 import 'package:novations/login/services/loginController.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -69,7 +70,8 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             appBarTheme: AppBarTheme(titleTextStyle: TextStyle(fontFamily: 'SukhumvitSet', fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold)),
             fontFamily: 'SukhumvitSet'),
-        home: LoginPage(),
+        home: token == null ? LoginPage() : FirstPage(),
+        // home: FirstPage(),
       ),
     );
   }

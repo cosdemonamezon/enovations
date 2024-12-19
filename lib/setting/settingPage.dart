@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:novations/login/loginPage.dart';
+import 'package:novations/login/services/loginController.dart';
 import 'package:novations/setting/pdpaInformationPage.dart';
+import 'package:provider/provider.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -79,7 +82,11 @@ class _SettingPageState extends State<SettingPage> {
           ListTile(
             leading: Icon(Icons.logout, color: Colors.red),
             title: Text("Log Out", style: TextStyle(color: Colors.red)),
-            onTap: () {},
+            onTap: () {
+              context.read<LoginController>().clearToken().then((value) {
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+              });
+            },
           ),
         ],
       ),
