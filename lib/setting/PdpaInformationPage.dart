@@ -5,7 +5,7 @@ class PdpaInformationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Privacy Policy (PDPA)"),
+        title: Text("Privacy Policy (PDPA)", style: TextStyle(color: Colors.white),),
         backgroundColor: Color(0xff3c61a9),
       ),
       body: Padding(
