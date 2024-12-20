@@ -59,6 +59,11 @@ class _BookCalendarState extends State<BookCalendar> {
     }
   }
 
+  String convertToBuddhistDate(DateTime date) {
+    int buddhistYear = date.year + 543;
+    return "${date.day}-${date.month}-$buddhistYear";
+  }
+
   void _showDetailsDialog(BuildContext context, DateTime date) {
     final details = startEndDetails[date];
     if (details == null) return;
@@ -68,31 +73,197 @@ class _BookCalendarState extends State<BookCalendar> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Details (${details['type']})"),
+          title: Text("Details (${details['type'] == 'Start Date' ? 'วันที่เริ่มต้น' : 'วันที่สิ้นสุด'})"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("code: ${_book.order!.code}", style: TextStyle(fontSize: 16),),
-              Text("วัตถุประสงค์: ${_book.order!.request_purpose}", style: TextStyle(fontSize: 16),),
-              Text("รุ่น: ${_book.order!.current_machine_model}", style: TextStyle(fontSize: 16),),              
-              Text("รุ่นคู่แข่ง: ${_book.order!.competitor_model}", style: TextStyle(fontSize: 16),),
-              Text("การประชุม: ${_book.order!.meeting_details}", style: TextStyle(fontSize: 16),),
-              Text("สถานีทำงาน: ${_book.order!.current_work_station}", style: TextStyle(fontSize: 16),),              
-              Text("ตัวแปลงสัญญาณของคู่แข่ง: ${_book.order!.competitor_transducer}", style: TextStyle(fontSize: 16),),
-              Text("คำติชมจากลูกค้า: ${_book.order!.customer_feedback}", style: TextStyle(fontSize: 16),),
-              Text("ข้อมูลเพิ่มเติม: ${_book.order!.additional_info}", style: TextStyle(fontSize: 16),),
-              Text("ชื่อคุณหมอ: ${_book.order!.kol_doctor}", style: TextStyle(fontSize: 16),),
-              Text("จังหวัด: ${_book.order!.province}", style: TextStyle(fontSize: 16),),
-              Text("แผนก: ${_book.order!.department}", style: TextStyle(fontSize: 16),),
-              Text("วันที่เริ่มต้น: ${_book.order!.start_date}", style: TextStyle(fontSize: 16),),
-              Text("วันที่สิ้นสุด: ${_book.order!.end_date}", style: TextStyle(fontSize: 16),),
+              Wrap(
+                children: [
+                  Text(
+                    "code: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.code}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "วัตถุประสงค์: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.request_purpose}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "รุ่น: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.current_machine_model}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "รุ่นคู่แข่ง: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.competitor_model}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "การประชุม: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.meeting_details}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "สถานีทำงาน: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.current_work_station}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "ตัวแปลงสัญญาณของคู่แข่ง: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.competitor_transducer}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "คำติชมจากลูกค้า: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.customer_feedback}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "ข้อมูลเพิ่มเติม: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.additional_info}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "ชื่อคุณหมอ: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.kol_doctor}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "จังหวัด: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.province}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "แผนก: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${_book.order!.department}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "วันที่เริ่มต้น: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    convertToBuddhistDate(DateTime.parse(_book.order!.start_date!)),
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              Wrap(
+                children: [
+                  Text(
+                    "วันที่สิ้นสุด: ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    convertToBuddhistDate(DateTime.parse(_book.order!.end_date!)),
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
             ],
           ),
           actions: [
             TextButton(
+              style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    Color(0xff3c61a9),
+                  ),
+                  // padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.all(13)),
+                  // foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ))),
               onPressed: () => Navigator.of(context).pop(),
-              child: Text("Close"),
+              child: Text(
+                "Close",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         );

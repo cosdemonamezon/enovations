@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
     //inspect(OneSignal.User);
     var playerId = OneSignal.User.pushSubscription.id;
     //log(playerId ?? '');
-    notify_token = playerId!;
+    notify_token = playerId ?? '';
   }
 
   Future<void> requestNotificationPermission() async {
@@ -120,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       // Password Input
                       TextFormField(
-                         controller: password,
+                        controller: password,
                         obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -138,9 +138,12 @@ class _LoginPageState extends State<LoginPage> {
                           if (loginFormKey.currentState!.validate()) {
                             try {
                               LoadingDialog.open(context);
+                              if (notify_token == '') {
+                                getToken();
+                              }
                               // if (androidInfo != null) {
                               //   final notify_token = await messaging!.getToken();
-                                
+
                               //   await controller.signIn(tel: username.text, password: password.text, deviceId: androidInfo!.id);
                               // } else if (iosInfo != null) {
                               //   await controller.signIn(tel: username.text, password: password.text, deviceId: iosInfo!.utsname.machine!);

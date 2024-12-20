@@ -38,6 +38,7 @@ class CardContentWidget extends StatelessWidget {
                     child: Text(
                       '${title}',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                      maxLines: 2,
                     )),
               ],
             ),
