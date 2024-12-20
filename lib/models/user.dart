@@ -6,9 +6,9 @@ part 'user.g.dart';
 class User {
   final int id;
   String? user_no;
-  String? permission_id;
-  String? department_id;
-  String? position_id;
+  int? permission_id;
+  int? department_id;
+  int? position_id;
   String? username;
   String? name;
   String? email;

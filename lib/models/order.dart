@@ -9,10 +9,10 @@ class Order {
   String? start_date;
   String? end_date;
   String? request_purpose;
-  String? user_id;
+  int? user_id;
   String? budget;
   String? function_qualifications;
-  String? work_station_id;
+  int? work_station_id;
   String? additional_equipment;
   String? meeting_details;
   String? current_machine_model;
@@ -21,7 +21,7 @@ class Order {
   String? competitor_model;
   String? competitor_transducer;
   String? customer_feedback;
-  String? client_id;
+  int? client_id;
   String? customer_type;
   String? province;
   String? department;

@@ -12,8 +12,8 @@ Books _$BooksFromJson(Map<String, dynamic> json) => Books(
       json['order'] == null
           ? null
           : Order.fromJson(json['order'] as Map<String, dynamic>),
-      json['order_id'] as String?,
-      json['product_id'] as String?,
+      (json['order_id'] as num?)?.toInt(),
+      (json['product_id'] as num?)?.toInt(),
       json['start_date'] as String?,
       json['type'] as String?,
     );

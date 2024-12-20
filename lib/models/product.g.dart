@@ -8,17 +8,17 @@ part of 'product.dart';
 
 Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       (json['id'] as num).toInt(),
-      json['area_id'] as String?,
+      (json['area_id'] as num?)?.toInt(),
       json['book'] as String?,
       (json['books'] as List<dynamic>?)
           ?.map((e) => Books.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['brand_id'] as String?,
-      json['category_product_id'] as String?,
+      (json['category_product_id'] as num?)?.toInt(),
       json['code'] as String?,
       json['create_by'] as String?,
       json['detail'] as String?,
-      json['machine_model_id'] as String?,
+      (json['machine_model_id'] as num?)?.toInt(),
       json['name'] as String?,
       json['qty'] as String?,
       json['serial_no'] as String?,

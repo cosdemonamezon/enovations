@@ -11,7 +11,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       json['additional_equipment'] as String?,
       json['additional_info'] as String?,
       json['budget'] as String?,
-      json['client_id'] as String?,
+      (json['client_id'] as num?)?.toInt(),
       json['code'] as String?,
       json['competitor_model'] as String?,
       json['competitor_transducer'] as String?,
@@ -30,8 +30,8 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       json['request_purpose'] as String?,
       json['start_date'] as String?,
       json['status'] as String?,
-      json['user_id'] as String?,
-      json['work_station_id'] as String?,
+      (json['user_id'] as num?)?.toInt(),
+      (json['work_station_id'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{

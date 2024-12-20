@@ -9,7 +9,7 @@ class ProductApi {
 
   //Get Products
   static Future<List<Product>> getProduct() async {
-    final url = Uri.https(publicUrl, '/enovations/api/public/api/get_product_all');
+    final url = Uri.https(publicUrl, 'api/get_product_all');
     //var headers = {'Content-Type': 'application/json'};
     final response = await http.get(
       //headers: headers,
