@@ -28,7 +28,9 @@ if (flutterVersionName == null) {
 android {
     namespace "com.example.novations"
     compileSdk flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    buildToolsVersion "27.0.3"
+    ndkVersion = "27.0.12077973"
+    // ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
